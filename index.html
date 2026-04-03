@@ -1,0 +1,239 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feliz Aniversário ❤️</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #0f0f0f;
+      font-family: Arial, sans-serif;
+    }
+
+    .hearts {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+
+    .heart {
+      position: absolute;
+      color: rgba(255, 77, 109, 0.6);
+      font-size: 20px;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-10%); opacity: 1; }
+      100% { transform: translateY(110vh); opacity: 0; }
+    }
+
+    .card {
+      position: relative;
+      background: #1c1c1c;
+      padding: 15px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      width: 95%;
+      max-width: 420px;
+      z-index: 1;
+    }
+
+    h1 {
+      color: #ff4d6d;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .img-container {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border-radius: 15px;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .fade-out {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+
+    .fade-in {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    p {
+      min-height: 50px;
+      font-size: 15px;
+      color: #ddd;
+      margin-top: 10px;
+      transition: opacity 0.5s;
+    }
+
+    button {
+      margin-top: 10px;
+      background: #ff4d6d;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 15px;
+      width: 100%;
+    }
+
+    button:hover {
+      background: #e63956;
+    }
+
+    .final {
+      display: none;
+      color: white;
+      font-size: 18px;
+      padding: 20px;
+      line-height: 1.6;
+      animation: fadeIn 2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="hearts" id="hearts"></div>
+
+  <div class="card">
+    <h1>Feliz Aniversário ❤️</h1>
+
+    <div class="img-container" id="container">
+      <img id="foto" src="foto1.jpg">
+    </div>
+
+    <p id="mensagem">Você é o melhor presente da minha vida 💖</p>
+
+    <button onclick="trocar()" id="btn">Próxima 💕</button>
+
+    <!-- FINAL -->
+    <div class="final" id="finalText">
+      💖 Eu só quero que você saiba o quanto você é importante pra mim.<br><br>
+      Você mudou minha vida de um jeito que eu nunca imaginei.<br><br>
+      Eu te amo mais do que palavras conseguem explicar ❤️<br><br>
+      Feliz aniversário, meu amor 💕
+
+      <button onclick="reiniciar()">Ver novamente 💕</button>
+    </div>
+  </div>
+
+  <script>
+    const fotos = [
+      "foto1.jpg",
+      "foto2.jpg",
+      "foto3.jpg",
+      "foto4.jpg"
+    ];
+
+    const mensagens = [
+      " 💖",
+      "Cada momento com você é especial ✨",
+      "Eu te amo mais a cada dia ❤️",
+      ""
+    ];
+
+    let index = 0;
+
+    function trocar() {
+      const img = document.getElementById("foto");
+      const texto = document.getElementById("mensagem");
+      const final = document.getElementById("finalText");
+      const btn = document.getElementById("btn");
+      const container = document.getElementById("container");
+
+      if (index === fotos.length - 1) {
+        container.style.display = "none";
+        texto.style.display = "none";
+        btn.style.display = "none";
+        final.style.display = "block";
+        return;
+      }
+
+      img.classList.add("fade-out");
+      texto.style.opacity = 0;
+
+      setTimeout(() => {
+        index++;
+
+        img.src = fotos[index];
+        texto.innerText = mensagens[index];
+
+        img.classList.remove("fade-out");
+        img.classList.add("fade-in");
+        texto.style.opacity = 1;
+      }, 300);
+    }
+
+    function reiniciar() {
+      const img = document.getElementById("foto");
+      const texto = document.getElementById("mensagem");
+      const final = document.getElementById("finalText");
+      const btn = document.getElementById("btn");
+      const container = document.getElementById("container");
+
+      index = 0;
+
+      img.src = fotos[0];
+      texto.innerText = mensagens[0];
+
+      container.style.display = "flex";
+      texto.style.display = "block";
+      btn.style.display = "block";
+      final.style.display = "none";
+    }
+
+    function criarCoracao() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerText = "❤️";
+
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+      heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+
+      document.getElementById("hearts").appendChild(heart);
+
+      setTimeout(() => heart.remove(), 6000);
+    }
+
+    setInterval(criarCoracao, 300);
+  </script>
+
+</body>
+</html>
+```
